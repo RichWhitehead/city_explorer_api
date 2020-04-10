@@ -30,6 +30,8 @@ app.get('/cats', (request, response) => {
     words = 'We do not have those';
   }
 
+
+
   response.send(words);
 });
 
@@ -59,22 +61,58 @@ function Location(city, data) {
   },
 */
 
-app.get('/restaurants', handleRestaurants);
+app.get('/location', handleLocation);
 
-function handleRestaurants(request, response) {
-  // Eventually, will be an API call
-  // Today ... get a file
+function handleLocation( request, response ) {
+  try {
+    let city = request.query.city;
+    // eventually, get this from a real live API
+    // But today, pull it from a file.
+    let locationData = require('./data/geo.json');
+    let location = new Location(city, locationData[0]);
+    throw 'you hit a roadblock';
+    response.json(location);
+  }
+  catch(error) {
+    let errorObject = {
+      status: 500,
+      responseText: error,
+    };
+    response.status(500).json(errorObject);
+  }
+}
 
-  let restaurantData = require('./data/restaurants.json');
-  let listOfRestaurants = [];
+function Location(city, data) {
+  this.search_query = city;
+  this.formatted_query = data.display_name;
+  this.latitude = data.lat;
+  this.longitude = data.lon;
+}
 
-  restaurantData.nearby_restaurants.forEach( r => {
-    let restaurant = new Restaurant(r);
-    listOfRestaurants.push(restaurant);
+
+
+
+
+
+app.get('/weather', handleWeather);
+
+function handleWeather(request, response) {
+  // use darksky fake data
+  // eventually will be an api call
+  let weatherData = require('./data/darksky.json');
+  let listofDays = [];
+
+  weatherData.daily.data.forEach( day => {
+    let weather = new Weather(day);
+    listofDays.push(weather);
   });
+  response.json(listofDays);
+}
 
-  response.json(listOfRestaurants);
 
+function Weather(data) {
+  this.time = data.time;
+  this.forecast = data.summary;
 }
 
 function Restaurant(data) {
@@ -82,5 +120,7 @@ function Restaurant(data) {
   this.cuisines = data.restaurant.cuisines;
   this.locality = data.restaurant.location.locality;
 }
+
+
 
 app.listen( PORT, () => console.log('Server up on', PORT));
