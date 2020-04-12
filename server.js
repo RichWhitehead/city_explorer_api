@@ -58,7 +58,6 @@ function Location(city, data) {
   this.longitude = data.lon;
 }
 
-
 app.get('/weather', handleWeather);
 
 function handleWeather(request, response) {
@@ -71,7 +70,7 @@ function handleWeather(request, response) {
     let lat = request.query.latitude;
     let lon = request.query.longitude;
 
-    // user-key
+    // user-key rs
 
     superagent.get(url)
       .set('user-key', process.env.DARKSKY_TOKEN)
@@ -81,7 +80,7 @@ function handleWeather(request, response) {
         data.daily.data.map( day => {
           let weather = new Weather(day);
           listofDays.push(weather);
-        })
+        });
         response.json(listofDays);
       }).catch( error => console.log(error));
 
@@ -91,6 +90,7 @@ function handleWeather(request, response) {
     // })
 
   }
+
 
   catch(error) {
     let errorObject = {
@@ -105,7 +105,4 @@ function Weather(data) {
   this.time = data.time;
   this.forecast = data.summary;
 }
-
-
-
 app.listen( PORT, () => console.log('Server up on', PORT));
