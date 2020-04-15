@@ -158,35 +158,44 @@ function Location(city, data) {
   this.latitude = data.lat;
   this.longitude = data.lon;
 }
-
-
-
-
-
-
 app.get('/weather', handleWeather);
 
 function handleWeather(request, response) {
-  // use darksky fake data
-  // eventually will be an api call
-  let weatherData = require('./data/darksky.json');
-  let listofDays = [];
+  try {
 
-  weatherData.daily.data.forEach( day => {
-    let weather = new Weather(day);
-    listofDays.push(weather);
-  });
-  response.json(listofDays);
+    // use darksky fake data
+    // eventually will be an api call
+    // let weatherData = require('./data/darksky.json');
+
+    let url = 'https://api.darksky.net/forecast/';
+    let key = process.env.DARKSKY_TOKEN;
+    let lat = request.query.latitude;
+    let lon = request.query.longitude;
+
+    // user-key
+    let newUrl = `${url}${key}/${lat},${lon}`;
+
+    superagent.get(newUrl)
+      .then( data => {
+        let listOfDays = data.body.daily.data.map( day => {
+          return new Weather(day);
+        })
+        response.json(listOfDays);
+      }).catch( error => {
+        console.log(error);
+      });
+  }
+  catch(error) {
+    let errorObject = {
+      status: 500,
+      responseText: 'john is ugly or something',
+    };
+    response.status(500).json(errorObject);
+  }
 }
 
-
 function Weather(data) {
-  this.time = data.time;
-  this.forecast = data.summary;
-}
-
-function Weather(data) {
-  this.time = data.time;
+  this.time = data.time; // format to date (not epoch)
   this.forecast = data.summary;
 }
 
