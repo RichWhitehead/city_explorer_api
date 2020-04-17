@@ -8,22 +8,18 @@ require('dotenv').config();
 const cors = require('cors');
 const express = require('express');
 const superagent = require('superagent');
-
 const PORT = process.env.PORT;
-
 const app = express();
 app.use(cors());
 
 
-app.get('/location', handleLocation);
+app.get('/location', handleLocation); //Handler function for location
 
 function handleLocation( request, response ) {
   try {
     let city = request.query.city;
     // eventually, get this from a real live API
     // But today, pull it from a file.
-
-    // throw 'john is ugly or something';
 
     const url = 'https://us1.locationiq.com/v1/search.php';
     const queryStringParams = {
@@ -59,7 +55,7 @@ function Location(city, data) {
 }
 
 
-app.get('/weather', handleWeather);
+app.get('/weather', handleWeather); // Handler function for weather
 
 function handleWeather(request, response) {
   try {
@@ -80,7 +76,7 @@ function handleWeather(request, response) {
       .then( data => {
         let listOfDays = data.body.daily.data.map( day => {
           return new Weather(day);
-        })
+        });
         response.json(listOfDays);
       }).catch( error => {
         console.log(error);
@@ -100,6 +96,37 @@ function Weather(data) {
   this.forecast = data.summary;
 }
 
+app.get('/trails', handleTrails);
+
+function handleTrails (request, response){
+  const trailsUrl = 'https://www.hikingproject.com/data/get-trails/';
+  const queryStringParams = {
+    key: process.env.HIKING_KEY,
+    lat: request.query.latitude,
+    lon: request.query.longitude,
+    maxResult: 10,
+  };
+  superagent.get (trailsUrl)
+    .query(queryStringParams)
+    .then(data =>{
+      let trailList = data.body.trails.map(trail => {
+        return new HikingTrails(trail);
+      });
+      response.json(trailList);
+    });
+}
+function HikingTrails(trail) {
+  this.name =trail.name;
+  this.location = trail.location;
+  this.length = trail.stars;
+  this.stars =trail.stars;
+  this.star_votes = trail.starVotes;
+  this.summary = trail.summary;
+  this.trail_url = trail.url;
+  this.conditions = trail.conditionDetails;
+  this.condition_date = trail.conditionDate.substring(0, 10);
+  this.condition_time = trail.conditionDate.substring(11, 20);
+}
 
 
 app.listen( PORT, () => console.log('Server up on', PORT));
