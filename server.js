@@ -64,7 +64,7 @@ function handleWeather(request, response) {
     // eventually will be an api call
     // let weatherData = require('./data/darksky.json');
 
-    let url = 'https://api.darksky.net/forecast/';
+    const url = 'https://api.darksky.net/forecast/';
     let key = process.env.DARKSKY_TOKEN;
     let lat = request.query.latitude;
     let lon = request.query.longitude;
@@ -99,27 +99,39 @@ function Weather(data) {
 app.get('/trails', handleTrails);
 
 function handleTrails (request, response){
-  const trailsUrl = 'https://www.hikingproject.com/data/get-trails/';
-  const queryStringParams = {
-    key: process.env.HIKING_KEY,
-    lat: request.query.latitude,
-    lon: request.query.longitude,
-    maxResult: 10,
-  };
-  superagent.get (trailsUrl)
-    .query(queryStringParams)
-    .then(data =>{
-      let trailList = data.body.trails.map(trail => {
-        return new HikingTrails(trail);
+  try {
+    const trailsUrl = 'https://www.hikingproject.com/data/get-trails/';
+    let queryStringParams = {
+      key: process.env.TRAILS_TOKEN,
+      lat: request.query.latitude,
+      lon: request.query.longitude,
+      maxResult: 10,
+    };
+    superagent.get (trailsUrl)
+      .query(queryStringParams)
+      .then(data => {
+        let trailList = data.body.trails.map(trail => {
+          return new HikingTrails(trail);
+        });
+        response.json(trailList);
+      }).catch( error => {
+        console.log(error);
       });
-      response.json(trailList);
-    });
+  }
+  catch(error) {
+    let errorObject = {
+      status: 500,
+      responseText: 'john is ugly or something',
+    };
+    response.status(500).json(errorObject);
+  }
 }
+
 function HikingTrails(trail) {
   this.name =trail.name;
   this.location = trail.location;
   this.length = trail.stars;
-  this.stars =trail.stars;
+  this.stars = trail.stars;
   this.star_votes = trail.starVotes;
   this.summary = trail.summary;
   this.trail_url = trail.url;
@@ -130,3 +142,5 @@ function HikingTrails(trail) {
 
 
 app.listen( PORT, () => console.log('Server up on', PORT));
+
+
