@@ -12,6 +12,12 @@ const PORT = process.env.PORT;
 const app = express();
 app.use(cors());
 
+// connect to database
+// const client = new pg.Client(process.env.DATABASE_URL);
+
+//empty cache for location
+// let locationCache ={};
+
 
 app.get('/location', handleLocation); //Handler function for location
 
