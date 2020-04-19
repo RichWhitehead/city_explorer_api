@@ -1,7 +1,11 @@
 {
+
   "name": "city_explorer_api",
+
+  "name": "city-explorer-api",
+
   "version": "1.0.0",
-  "description": "",
+  "description": "city explorer server setup",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,19 +13,31 @@
   },
   "repository": {
     "type": "git",
+
     "url": "https://github.com/RichWhitehead/city_explorer_api"
+
+    "url": "https://github.com/RichWhitehead/city-explorer-api.git"
+
   },
   "keywords": [],
   "author": "Richard Whitehead",
   "license": "ISC",
   "bugs": {
+
     "url": "https://github.com/RichWhitehead/city_explorer_api"
   },
   "homepage": "https://github.com/RichWhitehead/city_explorer_api",
+
+    "url": "https://github.com/RichWhitehead/city-explorer-api/issues"
+  },
+  "homepage": "https://github.com/RichWhitehead/city-explorer-api#readme",
+
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+
+    "nodemon": "^2.0.3",
     "pg": "^8.0.2",
     "superagent": "^5.2.2"
   }
