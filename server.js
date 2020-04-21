@@ -21,7 +21,7 @@ const client = new pg.Client(process.env.DATABASE_URL);
 client.connect();
 client.on('error', (error) => console.error('Connection Failure', error));
 
-//empty cache for locationnodemon
+//empty cache for location nodemon
 
 
 app.get('/location', handleLocation); //Handler function for location

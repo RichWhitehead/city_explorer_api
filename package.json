@@ -9,15 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RichWhitehead/city_explorer_api"
   },
   "keywords": [],
-  "author": "Richard Whitehead",
+  "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/RichWhitehead/city_explorer_api"
-  },
-  "homepage": "https://github.com/RichWhitehead/city_explorer_api",
+
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
