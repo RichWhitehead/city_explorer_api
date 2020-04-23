@@ -5,7 +5,7 @@ const superagent = require('superagent');
 module.exports = handleRestaurants;
 
 function handleRestaurants(req, res) {
-  let key = process.env.YELP_TOKEN;
+  let key = process.env.YELP_API_KEY;
   let city = req.query.search_query;
   let url = `https://api.yelp.com/v3/businesses/search?location=${city}`;
 

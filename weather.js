@@ -5,7 +5,7 @@ const superagent = require('superagent');
 module.exports = handleWeather;
 
 function handleWeather(request, response) {
-  let key = process.env.DARKSKY_TOKEN;
+  let key = process.env.DARK_SKY_KEY;
   let lat = request.query.latitude;
   let lon = request.query.longitude;
   let url = `https://api.darksky.net/forecast/${key}/${lat},${lon}`;

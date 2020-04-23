@@ -5,7 +5,7 @@ const superagent = require('superagent');
 module.exports = handleMovies;
 
 function handleMovies(req, res) {
-  let key = process.env.MOVIE_TOKEN;
+  let key = process.env.MOVIE_API_KEY;
   let region = req.query.search_query;
   const url = `https://api.themoviedb.org/3/search/movie?api_key=${key}&query=${region}&$include_adult=false`;
 
