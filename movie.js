@@ -27,4 +27,3 @@ function Movie (movie) {
   this.popularity = movie.popularity;
   this.released_on= movie.release_date;
 }
-
