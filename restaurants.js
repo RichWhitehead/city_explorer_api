@@ -4,19 +4,19 @@ const superagent = require('superagent');
 
 module.exports = handleRestaurants;
 
-function handleRestaurants (req, res) {
-  let key = process.env.YELP_TOKEN;
+function handleRestaurants(req, res) {
+  let key = process.env.YELP_API_KEY;
   let city = req.query.search_query;
-  let url = 'https://api.yelp.com/v3/businesses/search?location=${city}';
+  let url = `https://api.yelp.com/v3/businesses/search?location=${city}`;
 
   superagent.get (url)
-  .set ('Authorization', `Bearer ${key}`)
-  .then (data => {
-    let resturantsData = data.body.businesses.map ( restaurant => {
-      return new Restaurant (restaurant);
-    })
-    res.json(restaurantData);
-  })
+    .set ('Authorization', `Bearer ${key}`)
+    .then( data => {
+      let restaurantsData = data.body.businesses.map( restaurant => {
+        return new Restaurant(restaurant);
+      });
+      res.json(restaurantsData);
+    });
 }
 
 function Restaurant (restaurant) {
