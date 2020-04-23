@@ -8,7 +8,7 @@ module.exports = handleTrails;
 function handleTrails (request, response) {
   const url = 'https://www.hikingproject.com/data/get-trails';
   const queryStringParams = {
-    key: process.env.HIKING_API,
+    key: process.env.TRAILS_TOKEN,
     lat: request.query.latitude,
     lon: request.query.longitude,
     maxResults: 10,
