@@ -4,7 +4,7 @@ require('dotenv').config();
 const cors = require('cors');
 const express = require('express');
 const pg = require('pg');
-// const superagent = require('superagent');
+const superagent = require('superagent');
 
 const handleLocation = require('./location');
 const handleWeather = require('./weather');

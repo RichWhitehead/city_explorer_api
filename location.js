@@ -29,7 +29,7 @@ function handleLocation( request, response ) {
         response.json(results.rows[0]);
 
       } else {
-        console.log('test');
+        console.log("test");
         superagent.get(url)
           .query(queryStringParams)
           .then( data => {
